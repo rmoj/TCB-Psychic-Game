@@ -14,13 +14,38 @@ PseudoCode:
 'use strict';
 var wins = 0;
 var losses = 0;
-var guessesLeft = 9;
+var guessesLeft = 10;
 var guessesSoFar = '';
 
-var userGuess = document.getElementById('txtGuessesSoFar');
+setContent('txtGuessesLeft', '10');
+
+function initGame() {
+  guessesLeft = 10;
+  guessesSoFar = '';
+  setContent('txtGuessesSoFar', '');
+  setContent('txtGuessesLeft', '10');
+}
+
+function randomInt(max) {
+  Math.floor(Math.random() * max + 1);
+}
+
+function setContent(elementId, value) {
+  document.getElementById(elementId).textContent = value;
+}
 
 // Next, we give JavaScript a function to execute when onkeyup event fires.
-document.onkeyup = function(event) {
-  guessesSoFar += event.key + ', ';
-  userGuess.textContent = guessesSoFar;
+document.onkeyup = function(e) {
+  if (guessesLeft > 0) {
+    guessesSoFar += e.key + ', ';
+    // userGuess.textContent = guessesSoFar;
+    document.getElementById('txtGuessesSoFar').textContent = guessesSoFar;
+    setContent('txtGuessesSoFar', guessesSoFar);
+    guessesLeft--;
+    setContent('txtGuessesLeft', guessesLeft);
+  } else {
+    initGame();
+    losses++;
+    setContent('txtLosses', losses);
+  }
 };
