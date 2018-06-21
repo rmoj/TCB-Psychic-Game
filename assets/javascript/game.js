@@ -45,15 +45,17 @@ var arrLetter = [
   'y',
   'z'
 ];
-// get random integer from 0 to max
+// get random integer from 0 to max-1
 function randomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+//set text value of html element
 function setContent(elementId, value) {
   document.getElementById(elementId).textContent = value;
 }
 
+//initializes game variables
 function initGame() {
   guessesLeft = 10;
   guessesSoFar = '';
@@ -62,22 +64,24 @@ function initGame() {
   randomLetter = arrLetter[randomInt(26)];
 }
 
+//Use the CTRL key to view RNG letter and to check if randomizer is working properly
 function cheat() {
   alert('Letter is: ' + randomLetter);
 }
 
 initGame();
 
-// Next, we give JavaScript a function to execute when onkeyup event fires.
 document.onkeydown = function(e) {
   if (e.ctrlKey) {
     cheat();
   }
 };
+
 document.onkeyup = function(e) {
   if (e.ctrlKey) {
     cheat();
   }
+
   if (guessesLeft > 0) {
     guessesSoFar += e.key + ', ';
     setContent('txtGuessesSoFar', guessesSoFar);
@@ -89,6 +93,7 @@ document.onkeyup = function(e) {
       initGame();
     }
 
+    // if user has no more guesses left, user loses and game is reset
     if (guessesLeft == 0) {
       initGame();
       losses++;
