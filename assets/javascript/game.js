@@ -16,14 +16,47 @@ var wins = 0;
 var losses = 0;
 var guessesLeft = 10;
 var guessesSoFar = '';
+var randomLetter;
+var arrLetter = [
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z'
+];
 
-setContent('txtGuessesLeft', '10');
+function randomInt(max) {
+  Math.floor(Math.random() * max + 1);
+}
 
 function initGame() {
   guessesLeft = 10;
   guessesSoFar = '';
   setContent('txtGuessesSoFar', '');
   setContent('txtGuessesLeft', '10');
+  // randomLetter = arrLetter[randomInt(26)];
+  randomLetter = 'q';
 }
 
 function randomInt(max) {
@@ -34,6 +67,8 @@ function setContent(elementId, value) {
   document.getElementById(elementId).textContent = value;
 }
 
+initGame();
+
 // Next, we give JavaScript a function to execute when onkeyup event fires.
 document.onkeyup = function(e) {
   if (guessesLeft > 0) {
@@ -43,6 +78,11 @@ document.onkeyup = function(e) {
     setContent('txtGuessesSoFar', guessesSoFar);
     guessesLeft--;
     setContent('txtGuessesLeft', guessesLeft);
+    if (randomLetter === e.key) {
+      wins++;
+      setContent('txtWins', wins);
+      initGame();
+    }
   } else {
     initGame();
     losses++;
