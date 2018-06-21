@@ -45,9 +45,13 @@ var arrLetter = [
   'y',
   'z'
 ];
-
+// get random integer from 0 to max
 function randomInt(max) {
-  Math.floor(Math.random() * max + 1);
+  return Math.floor(Math.random() * max);
+}
+
+function setContent(elementId, value) {
+  document.getElementById(elementId).textContent = value;
 }
 
 function initGame() {
@@ -55,26 +59,27 @@ function initGame() {
   guessesSoFar = '';
   setContent('txtGuessesSoFar', '');
   setContent('txtGuessesLeft', '10');
-  // randomLetter = arrLetter[randomInt(26)];
-  randomLetter = 'q';
+  randomLetter = arrLetter[randomInt(26)];
 }
 
-function randomInt(max) {
-  Math.floor(Math.random() * max + 1);
-}
-
-function setContent(elementId, value) {
-  document.getElementById(elementId).textContent = value;
+function cheat() {
+  alert('Letter is: ' + randomLetter);
 }
 
 initGame();
 
 // Next, we give JavaScript a function to execute when onkeyup event fires.
+document.onkeydown = function(e) {
+  if (e.ctrlKey) {
+    cheat();
+  }
+};
 document.onkeyup = function(e) {
+  if (e.ctrlKey) {
+    cheat();
+  }
   if (guessesLeft > 0) {
     guessesSoFar += e.key + ', ';
-    // userGuess.textContent = guessesSoFar;
-    document.getElementById('txtGuessesSoFar').textContent = guessesSoFar;
     setContent('txtGuessesSoFar', guessesSoFar);
     guessesLeft--;
     setContent('txtGuessesLeft', guessesLeft);
@@ -83,9 +88,11 @@ document.onkeyup = function(e) {
       setContent('txtWins', wins);
       initGame();
     }
-  } else {
-    initGame();
-    losses++;
-    setContent('txtLosses', losses);
+
+    if (guessesLeft == 0) {
+      initGame();
+      losses++;
+      setContent('txtLosses', losses);
+    }
   }
 };
